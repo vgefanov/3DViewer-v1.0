@@ -3,12 +3,13 @@
 
 #define GL_SILENCE_DEPRECATION
 #include <QOpenGLWindow>
+#include <QOpenGLFunctions>
 
 extern "C" {
     #include "cfiles/cfiles.h"
 }
 
-class MainScene : public QOpenGLWindow
+class MainScene : public QOpenGLWindow, protected QOpenGLFunctions
 {
 
 public:

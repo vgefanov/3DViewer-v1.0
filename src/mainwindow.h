@@ -17,10 +17,6 @@ public:
     MainWindow(QWidget *parent = nullptr);
     ~MainWindow();
 
-private slots:
-    void onChangeColors();
-    void onAnimateColors();
-
 private:
     Ui::MainWindow *ui;
     MainScene *m_mainScene;

@@ -133,6 +133,7 @@ model load_model_tr(const char *filename) {
     fclose(model_fp);
     return result;
 }
+
 // void main() {
 //     model model = load_model("/Users/farfetch/OpenGL/models/cube.obj");
 //     for (int i = 0; i < model.v_num; i++) {

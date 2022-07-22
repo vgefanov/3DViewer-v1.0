@@ -4,6 +4,7 @@
 #define GL_SILENCE_DEPRECATION
 #include <QOpenGLWindow>
 #include <QOpenGLFunctions>
+#include "scenesettings.h"
 
 extern "C" {
     #include "cfiles/objfiles.h"
@@ -21,6 +22,7 @@ public:
 
 private:
     model model;
+    SceneSettings *sceneSettings;
     float projection_min;
     float projection_max;
 };

@@ -13,13 +13,15 @@ SOURCES += \
     cfiles/objfiles.c \
     main.cpp \
     mainscene.cpp \
-    mainwindow.cpp
+    mainwindow.cpp \
+    scenesettings.cpp
 
 HEADERS += \
     cfiles/matrix.h \
     cfiles/objfiles.h \
     mainscene.h \
-    mainwindow.h
+    mainwindow.h \
+    scenesettings.h
 
 FORMS += \
     mainwindow.ui

@@ -4,6 +4,8 @@
 MainScene::MainScene()
 {
     model = load_model("/Users/farfetch/C8_3DViewer_v1.0-0/src/models/medium/al.obj");
+    // Настройки
+    sceneSettings = new SceneSettings();
     // размеры проекции
     projection_min = (model.x_min < model.y_min) ? model.x_min : model.y_min;
     if (model.z_min < projection_min) projection_min = model.z_min;
@@ -27,41 +29,49 @@ void MainScene::paintGL()
     const float projection_scale = 1.1;
     float projmin_scaled = projection_min * projection_scale;
     float projmax_scaled = projection_max * projection_scale;
+
 //    glMatrixMode(GL_MODELVIEW);
 //    glLoadIdentity();
-//    glScaled(0.2, 0.2, 0.2);
-//    glTranslated(1, 0, 0);
-//    glRotated(angle, x, y, z);
 
+    // масштабирование
+    glScalef(sceneSettings->scaleX, sceneSettings->scaleY, sceneSettings->scaleZ);
+    // сдвиг
+    glTranslatef(sceneSettings->moveX, sceneSettings->moveY, sceneSettings->moveZ);
+    // поворот
+    glRotatef(sceneSettings->rotateX, 1, 0, 0);
+    glRotatef(sceneSettings->rotateY, 0, 1, 0);
+    glRotatef(sceneSettings->rotateZ, 0, 0, 1);
+
+    //  проекция
     glMatrixMode(GL_PROJECTION);
     glLoadIdentity();
-
-    // glOrtho(projmin_scaled, projmax_scaled, projmin_scaled, projmax_scaled, projmin_scaled, projmax_scaled);
-
-    glFrustum (projmin_scaled, projmax_scaled, projmin_scaled, projmax_scaled, 8, 100);
-    glTranslatef(0.0, 0.0, -10);
-
+    if (sceneSettings->projection == Settings::Projection::Orho) {
+        glOrtho(projmin_scaled, projmax_scaled, projmin_scaled, projmax_scaled, projmin_scaled, projmax_scaled);
+    } else {
+        glFrustum (projmin_scaled, projmax_scaled, projmin_scaled, projmax_scaled, 8, 100);
+        glTranslatef(0.0, 0.0, -10);
+    }
 
     // цвет фона
-    glClearColor(0.0f, 0.0f, 0.0f, 0.0f);
+    glClearColor(sceneSettings->sceneColorR, sceneSettings->sceneColorG, sceneSettings->sceneColorB, 1.0);
     glClear(GL_COLOR_BUFFER_BIT);
-
-    glEnableClientState(GL_VERTEX_ARRAY);
 
     // привязываем вершины
     glVertexPointer(3, GL_FLOAT, 0, model.vertexes);
 
+    glEnableClientState(GL_VERTEX_ARRAY);
+
     // отрисовываем линии
-    glColor3d(0.5f, 0.5f, 0.5f);
-    glLineWidth(1);
-    glLineStipple(1, 0x00ff);
+    glColor3d(sceneSettings->lineColorR, sceneSettings->lineColorG, sceneSettings->lineColorB);
+    glLineWidth(sceneSettings->lineWidth);
+    glLineStipple(1, sceneSettings->linePattern);
     glEnable(GL_LINE_STIPPLE);
     glDrawElements(GL_LINES, model.f_num, GL_UNSIGNED_INT, model.faces);
     glDisable(GL_LINE_STIPPLE);
 
     // отрисовываем вершины
-    glColor3d(1.0f, 1.0f, 1.0f);
-    glPointSize(3);
+    glColor3d(sceneSettings->vertexColorR, sceneSettings->vertexColorG, sceneSettings->vertexColorB);
+    glPointSize(sceneSettings->pointSize);
     glEnable(GL_POINT_SMOOTH);
     glDrawArrays(GL_POINTS, 0, model.v_num);
     glDisable(GL_POINT_SMOOTH);

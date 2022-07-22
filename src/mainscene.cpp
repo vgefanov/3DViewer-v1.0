@@ -29,14 +29,15 @@ void MainScene::paintGL()
     const float projection_scale = 1.1;
     float projmin_scaled = projection_min * projection_scale;
     float projmax_scaled = projection_max * projection_scale;
+    float diapason = projmax_scaled - projmin_scaled;
 
-//    glMatrixMode(GL_MODELVIEW);
-//    glLoadIdentity();
+    glMatrixMode(GL_MODELVIEW);
+    glLoadIdentity();
 
     // масштабирование
     glScalef(sceneSettings->scaleX, sceneSettings->scaleY, sceneSettings->scaleZ);
     // сдвиг
-    glTranslatef(sceneSettings->moveX, sceneSettings->moveY, sceneSettings->moveZ);
+    glTranslatef(sceneSettings->moveX * diapason, sceneSettings->moveY * diapason, sceneSettings->moveZ);
     // поворот
     glRotatef(sceneSettings->rotateX, 1, 0, 0);
     glRotatef(sceneSettings->rotateY, 0, 1, 0);

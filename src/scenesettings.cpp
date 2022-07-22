@@ -8,9 +8,8 @@ SceneSettings::SceneSettings()
       sceneColorR(0.0), sceneColorG(0.0), sceneColorB(0.0),
       lineColorR(1.0), lineColorG(1.0), lineColorB(1.0),
       lineWidth(1),
-      linePattern(0x00ff),
-      vertexColorR(1.0), vertexColorG(0.0), vertexColorB(0.0),
-      pointSize(3)
+      linePattern(0xffff),
+      vertexColorR(0.0), vertexColorG(0.0), vertexColorB(0.0),
+      pointSize(1)
 {
-
 }

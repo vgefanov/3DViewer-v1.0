@@ -1,6 +1,5 @@
 <RCC>
     <qresource prefix="/">
-        <file>shaders/pass_through.vert</file>
-        <file>shaders/simple.frag</file>
+        <file>models/medium/al.obj</file>
     </qresource>
 </RCC>

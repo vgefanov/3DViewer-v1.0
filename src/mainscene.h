@@ -19,10 +19,10 @@ public:
     void initializeGL() override;
     void resizeGL(int w, int h) override;
     void paintGL() override;
-
-private:
     model model;
     SceneSettings *sceneSettings;
+
+private:
     float projection_min;
     float projection_max;
 };

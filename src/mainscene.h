@@ -6,7 +6,8 @@
 #include <QOpenGLFunctions>
 
 extern "C" {
-    #include "cfiles/cfiles.h"
+    #include "cfiles/objfiles.h"
+    #include "cfiles/matrix.h"
 }
 
 class MainScene : public QOpenGLWindow, protected QOpenGLFunctions
@@ -20,6 +21,8 @@ public:
 
 private:
     model model;
+    float projection_min;
+    float projection_max;
 };
 
 #endif // MAINSCENE_H

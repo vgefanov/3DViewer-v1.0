@@ -4,6 +4,11 @@
 MainScene::MainScene()
 {
     model = load_model("/Users/farfetch/C8_3DViewer_v1.0-0/src/models/medium/al.obj");
+    // размеры проекции
+    projection_min = (model.x_min < model.y_min) ? model.x_min : model.y_min;
+    if (model.z_min < projection_min) projection_min = model.z_min;
+    projection_max = (model.x_max > model.y_max) ? model.x_max : model.y_max;
+    if (model.z_max > projection_max) projection_max = model.z_max;
 }
 
 void MainScene::initializeGL()
@@ -19,6 +24,9 @@ void MainScene::resizeGL(int w, int h)
 
 void MainScene::paintGL()
 {
+    const float projection_scale = 1.1;
+    float projmin_scaled = projection_min * projection_scale;
+    float projmax_scaled = projection_max * projection_scale;
 //    glMatrixMode(GL_MODELVIEW);
 //    glLoadIdentity();
 //    glScaled(0.2, 0.2, 0.2);
@@ -27,15 +35,11 @@ void MainScene::paintGL()
 
     glMatrixMode(GL_PROJECTION);
     glLoadIdentity();
-    // glOrtho(-2, 2, -2, 2, -2, 2);
 
-    glFrustum (-1, 1, -1, 1, 3, 20);
-    glTranslatef(0.0, 0.0, -10.0);
-//    float fov = 60.0 * M_PI / 180;  // 60 угол в градусах
-//    float winHeight = 2;
-//    float winWidth = 2;
-//    float heapHeight = winHeight / (2 * tan(fov / 2));
-//    glFrustum(-winWidth, winWidth, -winHeight, winHeight, heapHeight, heapHeight + 2);
+    // glOrtho(projmin_scaled, projmax_scaled, projmin_scaled, projmax_scaled, projmin_scaled, projmax_scaled);
+
+    glFrustum (projmin_scaled, projmax_scaled, projmin_scaled, projmax_scaled, 8, 100);
+    glTranslatef(0.0, 0.0, -10);
 
 
     // цвет фона

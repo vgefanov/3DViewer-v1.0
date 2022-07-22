@@ -1,7 +1,8 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
-#include "cfiles.h"
+#include <float.h>
+#include "objfiles.h"
 
 
 unsigned int scan_vertexes(char *str, float *vertexes) {
@@ -45,7 +46,7 @@ unsigned int scan_faces(char *str, unsigned int *faces) {
 
 model load_model(const char *filename) {
     char record[RECORD_SIZE];
-    model result = { 0, 0, NULL, NULL };
+    model result = { 0, 0, NULL, NULL, FLT_MAX, FLT_MIN, FLT_MAX, FLT_MIN, FLT_MAX, FLT_MIN };
     FILE *model_fp = fopen(filename, "r");
     // вычисляем размер массива
     while (fgets(record, RECORD_SIZE - 1, model_fp) != NULL) {
@@ -64,7 +65,14 @@ model load_model(const char *filename) {
     unsigned pos = 0;
     while (fgets(record, RECORD_SIZE - 1, model_fp) != NULL) {
         if (record[0] == 'v' && record[1] == ' ') {
-            v_ptr += scan_vertexes(record, v_ptr);
+            unsigned int v_num = scan_vertexes(record, v_ptr);
+            if (v_ptr[0] < result.x_min) result.x_min = v_ptr[0];
+            if (v_ptr[0] > result.x_max) result.x_max = v_ptr[0];
+            if (v_ptr[1] < result.y_min) result.y_min = v_ptr[1];
+            if (v_ptr[1] > result.y_max) result.y_max = v_ptr[1];
+            if (v_ptr[2] < result.z_min) result.z_min = v_ptr[2];
+            if (v_ptr[2] > result.z_max) result.z_max = v_ptr[2];
+            v_ptr += v_num;
         }
         if (record[0] == 'f' && record[1] == ' ') {
             unsigned int tmp[100];
@@ -78,19 +86,21 @@ model load_model(const char *filename) {
     }
     printf("Vertexes: %u\n", result.v_num);
     printf("Faces: %u\n", result.f_num);
+    printf("x_min: %f, x_max: %f, y_min: %f, y_max: %f, z_min: %f, z_max: %f\n",
+        result.x_min, result.x_max, result.y_min, result.y_max, result.z_min, result.z_max);
     fclose(model_fp);
     return result;
 }
 
 
-// void main() {
-//     model model = load_model("/Users/farfetch/OpenGL/models/cube.obj");
-//     for (int i = 0; i < model.v_num; i++) {
-//         printf("%f ", model.vertexes[i]);
-//         if ((i + 1) % 3 == 0) printf("\n");
-//     }
-//     for (int i = 0; i < model.f_num; i++) {
-//         printf("%d ", model.faces[i]);
-//         if ((i + 1) % 2 == 0) printf("\n");
-//     }
-// }
+//void main() {
+//    model model = load_model("/Users/farfetch/C8_3DViewer_v1.0-0/src/models/medium/al.obj");
+//    // for (int i = 0; i < model.v_num; i++) {
+//    //     printf("%f ", model.vertexes[i]);
+//    //     if ((i + 1) % 3 == 0) printf("\n");
+//    // }
+//    // for (int i = 0; i < model.f_num; i++) {
+//    //     printf("%d ", model.faces[i]);
+//    //     if ((i + 1) % 2 == 0) printf("\n");
+//    // }
+//}

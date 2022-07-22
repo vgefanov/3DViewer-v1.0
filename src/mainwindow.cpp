@@ -13,6 +13,7 @@ MainWindow::MainWindow(QWidget *parent)
     , ui(new Ui::MainWindow)
 {
     ui->setupUi(this);
+    setFixedSize(1200, 900);
 
     QSurfaceFormat format;
     format.setRenderableType(QSurfaceFormat::OpenGL);
@@ -20,12 +21,15 @@ MainWindow::MainWindow(QWidget *parent)
 
     m_mainScene = new MainScene();
     m_mainScene->setFormat(format);
-
     QWidget *container = QWidget::createWindowContainer(m_mainScene);
+    ui->verticalLayout->addWidget(container);
 
-    QGridLayout *layout = new QGridLayout();
-    layout->addWidget(container);
-    ui->centralwidget->setLayout(layout);
+    // TODO: удалить
+    ui->label->setText(QString::number(myMatrixXYZ()));
+
+//    QGridLayout *layout = new QGridLayout();
+//    layout->addWidget(container);
+//    ui->centralwidget->setLayout(layout);
 }
 
 

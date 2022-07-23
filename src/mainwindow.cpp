@@ -184,6 +184,7 @@ void MainWindow::load_model_dialog() {
         return;
     }
     file.close();
+    // убить старую модель
     m_mainScene->model = load_model(filename.toLocal8Bit().data());
     m_mainScene->update();
 }

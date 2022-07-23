@@ -84,6 +84,11 @@ void MainScene::paintGL()
         }
     }
 
-
     glDisableClientState(GL_VERTEX_ARRAY);
+}
+
+
+void MainScene::screenshot(QString filename)
+{
+    this->grabFramebuffer().save(filename);
 }

@@ -225,3 +225,19 @@ void MainWindow::on_actionLoad_profile_triggered()
     m_mainScene->update();
 }
 
+
+void MainWindow::on_screenshotButton_clicked()
+{
+    std::string ext = ".png";
+    if (ui->screenshotExtCombo->currentIndex() == 1) ext = ".bmp";
+    if (ui->screenshotExtCombo->currentIndex() == 2) ext = ".jpg";
+    std::string filter = "Image file (*" + ext + ")";
+    QString filename = QFileDialog::getSaveFileName(
+            this,
+            "Screenshot file",
+            ".",
+            QString::fromUtf8(filter.c_str())
+    );
+    m_mainScene->screenshot(filename);
+}
+

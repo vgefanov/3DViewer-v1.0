@@ -55,6 +55,8 @@ private slots:
 
     void on_actionLoad_profile_triggered();
 
+    void on_screenshotButton_clicked();
+
 private:
     void load_model_dialog();
 

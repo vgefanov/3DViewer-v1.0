@@ -19,6 +19,9 @@ public:
     void initializeGL() override;
     void resizeGL(int w, int h) override;
     void paintGL() override;
+
+    void screenshot(QString filename);
+
     model model;
     SceneSettings *sceneSettings;
 

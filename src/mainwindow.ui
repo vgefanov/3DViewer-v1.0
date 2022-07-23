@@ -851,8 +851,8 @@ background-color: white;
       <widget class="QPushButton" name="screenshotButton">
        <property name="geometry">
         <rect>
-         <x>10</x>
-         <y>790</y>
+         <x>180</x>
+         <y>759</y>
          <width>100</width>
          <height>32</height>
         </rect>
@@ -866,7 +866,7 @@ background-color: white;
         <rect>
          <x>10</x>
          <y>760</y>
-         <width>103</width>
+         <width>161</width>
          <height>32</height>
         </rect>
        </property>
@@ -885,6 +885,19 @@ background-color: white;
          <string>JPG</string>
         </property>
        </item>
+      </widget>
+      <widget class="QPushButton" name="recordButton">
+       <property name="geometry">
+        <rect>
+         <x>180</x>
+         <y>790</y>
+         <width>100</width>
+         <height>32</height>
+        </rect>
+       </property>
+       <property name="text">
+        <string>Record to GIF</string>
+       </property>
       </widget>
      </widget>
     </item>

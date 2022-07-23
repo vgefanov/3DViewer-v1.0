@@ -241,3 +241,15 @@ void MainWindow::on_screenshotButton_clicked()
     m_mainScene->screenshot(filename);
 }
 
+
+void MainWindow::on_recordButton_clicked()
+{
+    record = !record;
+    if (record) {
+        ui->recordButton->setText("Stop");
+    } else {
+        ui->recordButton->setText("Record to GIF");
+    }
+
+}
+

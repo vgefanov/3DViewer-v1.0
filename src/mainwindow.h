@@ -57,10 +57,14 @@ private slots:
 
     void on_screenshotButton_clicked();
 
+    void on_recordButton_clicked();
+
 private:
     void load_model_dialog();
 
     Ui::MainWindow *ui;
     MainScene *m_mainScene;
+
+    bool record = false;
 };
 #endif // MAINWINDOW_H

@@ -24,6 +24,10 @@ MainWindow::MainWindow(QWidget *parent)
     m_mainScene->setFormat(format);
     QWidget *container = QWidget::createWindowContainer(m_mainScene);
     ui->verticalLayout->addWidget(container);
+
+    ui->modelName->setText(m_mainScene->sceneSettings->visibleModelName);
+    ui->pointsNum->setText(QString::number(m_mainScene->model.v_num / 3));
+    ui->linesNum->setText(QString::number(m_mainScene->model.f_num / 2));
 }
 
 
@@ -33,22 +37,10 @@ MainWindow::~MainWindow()
 }
 
 
-void MainWindow::on_scaleXslider_valueChanged(int value)
+void MainWindow::on_scaleSlider_valueChanged(int value)
 {
     m_mainScene->sceneSettings->scaleX = (float)value / 50;
-    m_mainScene->update();
-}
-
-
-void MainWindow::on_scaleYslider_valueChanged(int value)
-{
     m_mainScene->sceneSettings->scaleY = (float)value / 50;
-    m_mainScene->update();
-}
-
-
-void MainWindow::on_scaleZslider_valueChanged(int value)
-{
     m_mainScene->sceneSettings->scaleZ = (float)value / 50;
     m_mainScene->update();
 }
@@ -168,6 +160,17 @@ void MainWindow::on_pointSizeSlider_valueChanged(int value)
 
 void MainWindow::on_actionOpen_model_triggered()
 {
+    load_model_dialog();
+}
+
+
+void MainWindow::on_sceneColorButton_2_clicked()
+{
+    load_model_dialog();
+}
+
+
+void MainWindow::load_model_dialog() {
     QString filename = QFileDialog::getOpenFileName(
             this,
             tr("Open model file"),
@@ -182,6 +185,43 @@ void MainWindow::on_actionOpen_model_triggered()
     }
     file.close();
     m_mainScene->model = load_model(filename.toLocal8Bit().data());
+    m_mainScene->update();
+}
+
+
+
+void MainWindow::on_radioNone_clicked()
+{
+    m_mainScene->sceneSettings->pointStyle = Settings::PointStyle::None;
+    m_mainScene->update();
+}
+
+
+
+
+void MainWindow::on_radioRounded_clicked()
+{
+    m_mainScene->sceneSettings->pointStyle = Settings::PointStyle::Rounded;
+    m_mainScene->update();
+}
+
+
+void MainWindow::on_radioQuad_clicked()
+{
+    m_mainScene->sceneSettings->pointStyle = Settings::PointStyle::Quad;
+    m_mainScene->update();
+}
+
+
+void MainWindow::on_actionSave_profile_triggered()
+{
+    m_mainScene->sceneSettings->save();
+}
+
+
+void MainWindow::on_actionLoad_profile_triggered()
+{
+    m_mainScene->sceneSettings->load();
     m_mainScene->update();
 }
 

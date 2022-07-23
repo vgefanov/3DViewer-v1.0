@@ -19,9 +19,7 @@ public:
     ~MainWindow();
 
 private slots:
-    void on_scaleXslider_valueChanged(int value);
-    void on_scaleYslider_valueChanged(int value);
-    void on_scaleZslider_valueChanged(int value);
+    void on_scaleSlider_valueChanged(int value);
 
     void on_moveXslider_valueChanged(int value);
     void on_moveYslider_valueChanged(int value);
@@ -45,9 +43,22 @@ private slots:
 
     void on_actionOpen_model_triggered();
 
+    void on_sceneColorButton_2_clicked();
+
+    void on_radioNone_clicked();
+
+    void on_radioRounded_clicked();
+
+    void on_radioQuad_clicked();
+
+    void on_actionSave_profile_triggered();
+
+    void on_actionLoad_profile_triggered();
+
 private:
+    void load_model_dialog();
+
     Ui::MainWindow *ui;
     MainScene *m_mainScene;
-
 };
 #endif // MAINWINDOW_H

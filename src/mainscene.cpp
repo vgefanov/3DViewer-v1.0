@@ -3,9 +3,10 @@
 
 MainScene::MainScene()
 {
-    model = load_model("/Users/farfetch/C8_3DViewer_v1.0-0/src/models/medium/al.obj");
     // Настройки
     sceneSettings = new SceneSettings();
+
+    model = load_model(sceneSettings->modelName.toLocal8Bit().data());
     // размеры проекции
     projection_min = (model.x_min < model.y_min) ? model.x_min : model.y_min;
     if (model.z_min < projection_min) projection_min = model.z_min;
@@ -71,11 +72,18 @@ void MainScene::paintGL()
     glDisable(GL_LINE_STIPPLE);
 
     // отрисовываем вершины
-    glColor3d(sceneSettings->vertexColorR, sceneSettings->vertexColorG, sceneSettings->vertexColorB);
-    glPointSize(sceneSettings->pointSize);
-    glEnable(GL_POINT_SMOOTH);
-    glDrawArrays(GL_POINTS, 0, model.v_num);
-    glDisable(GL_POINT_SMOOTH);
+    if (sceneSettings->pointStyle != Settings::PointStyle::None) {
+        glColor3d(sceneSettings->vertexColorR, sceneSettings->vertexColorG, sceneSettings->vertexColorB);
+        glPointSize(sceneSettings->pointSize);
+        if (sceneSettings->pointStyle == Settings::PointStyle::Rounded) {
+            glEnable(GL_POINT_SMOOTH);
+        }
+        glDrawArrays(GL_POINTS, 0, model.v_num / 3);
+        if (sceneSettings->pointStyle == Settings::PointStyle::Rounded) {
+            glDisable(GL_POINT_SMOOTH);
+        }
+    }
+
 
     glDisableClientState(GL_VERTEX_ARRAY);
 }

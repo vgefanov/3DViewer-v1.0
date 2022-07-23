@@ -6,6 +6,7 @@
 namespace Settings
 {
     enum class Projection { Orho, Frustum };
+    enum class PointStyle { None, Rounded, Quad };
 }
 
 class SceneSettings
@@ -13,6 +14,8 @@ class SceneSettings
 public:
     SceneSettings();
 
+    QString modelName;
+    QString visibleModelName;
     float scaleX, scaleY, scaleZ;
     float moveX, moveY, moveZ;
     float rotateX, rotateY, rotateZ;
@@ -23,6 +26,13 @@ public:
     unsigned short linePattern;
     float vertexColorR, vertexColorG, vertexColorB;
     int pointSize;
+    Settings::PointStyle pointStyle;
+
+    void save();
+    void load();
+
+private:
+    bool check_file_name(QString filename);
 };
 
 #endif // SCENESETTINGS_H

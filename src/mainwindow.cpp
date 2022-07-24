@@ -45,56 +45,47 @@ void MainWindow::on_scaleSlider_valueChanged(int value)
       m_mainScene->sceneSettings->scaleX = (float)value / 50;
       m_mainScene->sceneSettings->scaleY = (float)value / 50;
       m_mainScene->sceneSettings->scaleZ = (float)value / 50;
-      scale(&m_mainScene->model, (float)value/ temp / 50);
+      scale(&m_mainScene->model, (float)value / temp / 50);
       m_mainScene->update();
-//    m_mainScene->sceneSettings->scaleX = (float)value / 50;
-//    m_mainScene->sceneSettings->scaleY = (float)value / 50;
-//    m_mainScene->sceneSettings->scaleZ = (float)value / 50;
-//    m_mainScene->update();
 }
 
 
 void MainWindow::on_moveXslider_valueChanged(int value)
 {
-      float tempX = m_mainScene->sceneSettings->moveX;
-      m_mainScene->sceneSettings->moveX = (float)value / 50;
-      moveXYZ(&m_mainScene->model, (float)value / 50 - tempX, 0.0, 0.0);
-      m_mainScene->update();
-//    m_mainScene->sceneSettings->moveX = (float)value / 50;
-//    m_mainScene->update();
+    float temp = m_mainScene->sceneSettings->moveX;
+    float newX = (float)value / 50 * m_mainScene->diapason;
+    m_mainScene->sceneSettings->moveX = newX;
+    moveXYZ(&m_mainScene->model, newX - temp, 0.0, 0.0);
+    m_mainScene->update();
 }
 
 
 void MainWindow::on_moveYslider_valueChanged(int value)
 {
-    float tempY = m_mainScene->sceneSettings->moveY;
-    m_mainScene->sceneSettings->moveY = (float)value / 50;
-    moveXYZ(&m_mainScene->model, 0.0, (float)value / 50 - tempY, 0.0);
+    float temp = m_mainScene->sceneSettings->moveY;
+    float newY = (float)value / 50 * m_mainScene->diapason;
+    m_mainScene->sceneSettings->moveY = newY;
+    moveXYZ(&m_mainScene->model, 0.0, newY - temp, 0.0);
     m_mainScene->update();
-//    m_mainScene->sceneSettings->moveY = (float)value / 50;
-//    m_mainScene->update();
 }
 
 
 void MainWindow::on_moveZslider_valueChanged(int value)
 {
-//    float temp = m_mainScene->sceneSettings->moveZ;
-//    m_mainScene->sceneSettings->moveZ = (float)value / 50;
-//    moveXYZ(&m_mainScene->model, 0.0, 0.0, (float)value / 50 - temp);
-//    m_mainScene->update();
-    m_mainScene->sceneSettings->moveZ = (float)value / 50;
+    float temp = m_mainScene->sceneSettings->moveZ;
+    float newZ = (float)value / 10 * m_mainScene->diapason;
+    m_mainScene->sceneSettings->moveZ = newZ;
+    moveXYZ(&m_mainScene->model, 0.0, 0.0, newZ - temp);
     m_mainScene->update();
 }
 
 
 void MainWindow::on_rotateXslider_valueChanged(int value)
 {
-      float temp = m_mainScene->sceneSettings->rotateX;
-      m_mainScene->sceneSettings->rotateX = (float)value;
-      rotationX(&m_mainScene->model, ((float)value - temp) * M_PI / 180);
-      m_mainScene->update();
-//    m_mainScene->sceneSettings->rotateX = (float)value;
-//    m_mainScene->update();
+    float temp = m_mainScene->sceneSettings->rotateX;
+    m_mainScene->sceneSettings->rotateX = (float)value;
+    rotationX(&m_mainScene->model, ((float)value - temp) * M_PI / 180);
+    m_mainScene->update();
 }
 
 
@@ -104,8 +95,6 @@ void MainWindow::on_rotateYslider_valueChanged(int value)
     m_mainScene->sceneSettings->rotateY = (float)value;
     rotationY(&m_mainScene->model, ((float)value - temp) * M_PI / 180);
     m_mainScene->update();
-//    m_mainScene->sceneSettings->rotateY = (float)value;
-//    m_mainScene->update();
 }
 
 
@@ -115,8 +104,6 @@ void MainWindow::on_rotateZslider_valueChanged(int value)
     m_mainScene->sceneSettings->rotateZ = (float)value;
     rotationZ(&m_mainScene->model, ((float)value - temp) * M_PI / 180);
     m_mainScene->update();
-//    m_mainScene->sceneSettings->rotateZ = (float)value;
-//    m_mainScene->update();
 }
 
 

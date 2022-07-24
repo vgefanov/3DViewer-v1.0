@@ -12,6 +12,11 @@ MainScene::MainScene()
     if (model.z_min < projection_min) projection_min = model.z_min;
     projection_max = (model.x_max > model.y_max) ? model.x_max : model.y_max;
     if (model.z_max > projection_max) projection_max = model.z_max;
+
+    const float projection_scale = 1.1;
+    projmin_scaled = projection_min * projection_scale;
+    projmax_scaled = projection_max * projection_scale;
+    diapason = projmax_scaled - projmin_scaled;
 }
 
 void MainScene::initializeGL()
@@ -27,31 +32,14 @@ void MainScene::resizeGL(int w, int h)
 
 void MainScene::paintGL()
 {
-    const float projection_scale = 1.1;
-    float projmin_scaled = projection_min * projection_scale;
-    float projmax_scaled = projection_max * projection_scale;
-    float diapason = projmax_scaled - projmin_scaled;
-
-    // glMatrixMode(GL_MODELVIEW);
-    // glLoadIdentity();
-
-    // масштабирование
-    //glScalef(sceneSettings->scaleX, sceneSettings->scaleY, sceneSettings->scaleZ);
-    // сдвиг
-    //glTranslatef(sceneSettings->moveX * diapason, sceneSettings->moveY * diapason, sceneSettings->moveZ);
-    // поворот
-    //glRotatef(sceneSettings->rotateX, 1, 0, 0);
-    //glRotatef(sceneSettings->rotateY, 0, 1, 0);
-    //glRotatef(sceneSettings->rotateZ, 0, 0, 1);
-
     //  проекция
     glMatrixMode(GL_PROJECTION);
     glLoadIdentity();
     if (sceneSettings->projection == Settings::Projection::Orho) {
-        glOrtho(projmin_scaled, projmax_scaled, projmin_scaled, projmax_scaled, projmin_scaled, projmax_scaled);
+        glOrtho(projmin_scaled, projmax_scaled, projmin_scaled, projmax_scaled, -diapason * 10, diapason * 10);
     } else {
-        glFrustum (projmin_scaled, projmax_scaled, projmin_scaled, projmax_scaled, 8, 100);
-        glTranslatef(0.0, 0.0, -10);
+        glFrustum (projmin_scaled, projmax_scaled, projmin_scaled, projmax_scaled, diapason, 100);
+        glTranslatef(0.0, 0.0, -diapason);
     }
 
     // цвет фона

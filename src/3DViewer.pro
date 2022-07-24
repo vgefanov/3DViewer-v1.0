@@ -9,6 +9,7 @@ CONFIG += c++17
 #DEFINES += QT_DISABLE_DEPRECATED_BEFORE=0x060000    # disables all the APIs deprecated before Qt 6.0.0
 
 SOURCES += \
+    cfiles/affine.c \
     cfiles/matrix.c \
     cfiles/objfiles.c \
     main.cpp \
@@ -17,6 +18,7 @@ SOURCES += \
     scenesettings.cpp
 
 HEADERS += \
+    cfiles/affine.h \
     cfiles/matrix.h \
     cfiles/objfiles.h \
     mainscene.h \

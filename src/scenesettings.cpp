@@ -3,7 +3,7 @@
 #include "scenesettings.h"
 
 SceneSettings::SceneSettings()
-    : modelName("/Users/farfetch/C8_3DViewer_v1.0-0/src/models/medium/al.obj"),
+    : modelName("/Users/barberry/C8_3DViewer_v1.0-0/src/models/medium/al.obj"),
       visibleModelName(modelName.split("/").last()),
       scaleX(1.0), scaleY(1.0), scaleZ(1.0),
       moveX(0.0), moveY(0.0), moveZ(0.0),

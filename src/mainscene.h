@@ -9,6 +9,7 @@
 extern "C" {
     #include "cfiles/objfiles.h"
     #include "cfiles/matrix.h"
+    #include "cfiles/affine.h"
 }
 
 class MainScene : public QOpenGLWindow, protected QOpenGLFunctions

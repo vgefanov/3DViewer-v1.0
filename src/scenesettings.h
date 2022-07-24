@@ -12,9 +12,9 @@ namespace Settings
 class SceneSettings
 {
 public:
-    SceneSettings();
+    SceneSettings(QString modelPath);
 
-    QString modelName;
+    QString modelPath;
     QString visibleModelName;
     float scaleX, scaleY, scaleZ;
     float moveX, moveY, moveZ;

@@ -2,9 +2,9 @@
 #include <QMessageBox>
 #include "scenesettings.h"
 
-SceneSettings::SceneSettings()
-    : modelName("/Users/farfetch/C8_3DViewer_v1.0-0/src/models/medium/al.obj"),
-      visibleModelName(modelName.split("/").last()),
+SceneSettings::SceneSettings(QString modelPath)
+    : modelPath(modelPath),
+      visibleModelName(modelPath.split("/").last()),
       scaleX(1.0), scaleY(1.0), scaleZ(1.0),
       moveX(0.0), moveY(0.0), moveZ(0.0),
       rotateX(0.0), rotateY(0.0), rotateZ(0.0),
@@ -27,7 +27,7 @@ void SceneSettings::save()
         QFile file(filename);
         QDataStream stream(&file);
         file.open(QIODevice::WriteOnly);
-        stream << modelName
+        stream << modelPath
                << visibleModelName
                << scaleX << scaleY << scaleZ
                << moveX << moveY << moveZ
@@ -53,7 +53,7 @@ void SceneSettings::load()
         QFile file(filename);
         QDataStream stream(&file);
         file.open(QIODevice::ReadOnly);
-        stream >> modelName
+        stream >> modelPath
                >> visibleModelName
                >> scaleX >> scaleY >> scaleZ
                >> moveX >> moveY >> moveZ

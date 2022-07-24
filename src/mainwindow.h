@@ -17,6 +17,7 @@ class MainWindow : public QMainWindow
 public:
     MainWindow(QWidget *parent = nullptr);
     ~MainWindow();
+    void show_model_info();
 
 private slots:
     void on_scaleSlider_valueChanged(int value);

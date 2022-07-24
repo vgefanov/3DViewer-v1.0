@@ -27,15 +27,21 @@ MainWindow::MainWindow(QWidget *parent)
     QWidget *container = QWidget::createWindowContainer(m_mainScene);
     ui->verticalLayout->addWidget(container);
 
-    ui->modelName->setText(m_mainScene->sceneSettings->visibleModelName);
-    ui->pointsNum->setText(QString::number(m_mainScene->model.v_num / 3));
-    ui->linesNum->setText(QString::number(m_mainScene->model.f_num / 2));
+    show_model_info();
 }
 
 
 MainWindow::~MainWindow()
 {
     delete ui;
+}
+
+
+void MainWindow::show_model_info()
+{
+    ui->modelName->setText(m_mainScene->sceneSettings->visibleModelName);
+    ui->pointsNum->setText(QString::number(m_mainScene->model.v_num / 3));
+    ui->linesNum->setText(QString::number(m_mainScene->model.f_num / 2));
 }
 
 
@@ -190,6 +196,7 @@ void MainWindow::on_loadModelButton_clicked()
 
 
 void MainWindow::load_model_dialog() {
+
     QString filename = QFileDialog::getOpenFileName(
             this,
             tr("Open model file"),
@@ -203,8 +210,27 @@ void MainWindow::load_model_dialog() {
         return;
     }
     file.close();
-    // убить старую модель
+
+    release_model(m_mainScene->model);
     m_mainScene->model = load_model(filename.toLocal8Bit().data());
+
+    delete m_mainScene->sceneSettings;
+    m_mainScene->sceneSettings = new SceneSettings(filename);
+
+    show_model_info();
+    ui->scaleSlider->setValue(50);
+    ui->moveXslider->setValue(0);
+    ui->moveYslider->setValue(0);
+    ui->moveZslider->setValue(0);
+    ui->rotateXslider->setValue(0);
+    ui->rotateYslider->setValue(0);
+    ui->rotateZslider->setValue(0);
+    ui->radioOrho->setChecked(1);
+    ui->lineWidthSlider->setValue(1);
+    ui->patternSlider->setValue(1);
+    ui->pointSizeSlider->setValue(1);
+    ui->radioNone->setChecked(1);
+
     m_mainScene->update();
 }
 
@@ -240,6 +266,42 @@ void MainWindow::on_actionSave_profile_triggered()
 void MainWindow::on_actionLoad_profile_triggered()
 {
     m_mainScene->sceneSettings->load();
+    release_model(m_mainScene->model);
+    m_mainScene->model = load_model(m_mainScene->sceneSettings->modelPath.toLocal8Bit().data());
+
+    show_model_info();
+    ui->scaleSlider->setValue(m_mainScene->sceneSettings->scaleX * 50);
+    ui->moveXslider->setValue(m_mainScene->sceneSettings->moveX * 50 / m_mainScene->diapason);
+    ui->moveYslider->setValue(m_mainScene->sceneSettings->moveY * 50 / m_mainScene->diapason);
+    ui->moveZslider->setValue(m_mainScene->sceneSettings->moveZ * 10 / m_mainScene->diapason);
+    ui->rotateXslider->setValue(m_mainScene->sceneSettings->rotateX);
+    ui->rotateYslider->setValue(m_mainScene->sceneSettings->rotateY);
+    ui->rotateZslider->setValue(m_mainScene->sceneSettings->rotateZ);
+    if (m_mainScene->sceneSettings->projection == Settings::Projection::Orho) {
+        ui->radioOrho->setChecked(1);
+    } else {
+        ui->radioFrustum->setChecked(1);
+    }
+    ui->lineWidthSlider->setValue(m_mainScene->sceneSettings->lineWidth);
+    switch (m_mainScene->sceneSettings->linePattern) {
+        case 0xffff: ui->patternSlider->setValue(1); break;
+        case 0xff00: ui->patternSlider->setValue(2); break;
+        case 0xf000: ui->patternSlider->setValue(3); break;
+        case 0x1000: ui->patternSlider->setValue(4); break;
+    }
+    ui->pointSizeSlider->setValue(m_mainScene->sceneSettings->pointSize);
+    switch (m_mainScene->sceneSettings->pointStyle) {
+        case Settings::PointStyle::None: ui->radioNone->setChecked(1); break;
+        case Settings::PointStyle::Rounded: ui->radioRounded->setChecked(1); break;
+        case Settings::PointStyle::Quad: ui->radioQuad->setChecked(1); break;
+    }
+
+    scale(&m_mainScene->model, m_mainScene->sceneSettings->scaleX);
+    moveXYZ(&m_mainScene->model, m_mainScene->sceneSettings->moveX, m_mainScene->sceneSettings->moveY, m_mainScene->sceneSettings->moveZ);
+    rotationX(&m_mainScene->model, m_mainScene->sceneSettings->rotateX * M_PI / 180);
+    rotationY(&m_mainScene->model, m_mainScene->sceneSettings->rotateY * M_PI / 180);
+    rotationZ(&m_mainScene->model, m_mainScene->sceneSettings->rotateZ * M_PI / 180);
+
     m_mainScene->update();
 }
 

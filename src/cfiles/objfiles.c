@@ -88,25 +88,15 @@ model load_model(const char *filename) {
       pos += f_num * 2;
     }
   }
-  // printf("Vertexes: %u\n", result.v_num);
-  // printf("Faces: %u\n", result.f_num);
-  // printf("x_min: %f, x_max: %f, y_min: %f, y_max: %f, z_min: %f, z_max:
-  // %f\n",
-  //     result.x_min, result.x_max, result.y_min, result.y_max, result.z_min,
-  //     result.z_max);
   fclose(model_fp);
   return result;
 }
 
-// void main() {
-//     model model =
-//     load_model("/Users/farfetch/C8_3DViewer_v1.0-0/src/models/medium/al.obj");
-//     // for (int i = 0; i < model.v_num; i++) {
-//     //     printf("%f ", model.vertexes[i]);
-//     //     if ((i + 1) % 3 == 0) printf("\n");
-//     // }
-//     // for (int i = 0; i < model.f_num; i++) {
-//     //     printf("%d ", model.faces[i]);
-//     //     if ((i + 1) % 2 == 0) printf("\n");
-//     // }
-// }
+void release_model(model model) {
+    if (model.vertexes) {
+        free(model.vertexes);
+    }
+    if (model.faces) {
+        free(model.faces);
+    }
+}

@@ -24,5 +24,6 @@ typedef struct {
 unsigned int scan_vertexes(char *str, float* vertexes);
 unsigned int scan_faces(char *str, unsigned int *faces);
 model load_model(const char *filename);
+void release_model(model model);
 
 #endif  // _OBJFILES_H_

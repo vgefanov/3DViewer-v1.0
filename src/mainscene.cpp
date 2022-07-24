@@ -4,9 +4,9 @@
 MainScene::MainScene()
 {
     // Настройки
-    sceneSettings = new SceneSettings();
+    sceneSettings = new SceneSettings("/Users/farfetch/C8_3DViewer_v1.0-0/src/models/medium/al.obj");
 
-    model = load_model(sceneSettings->modelName.toLocal8Bit().data());
+    model = load_model(sceneSettings->modelPath.toLocal8Bit().data());
     // размеры проекции
     projection_min = (model.x_min < model.y_min) ? model.x_min : model.y_min;
     if (model.z_min < projection_min) projection_min = model.z_min;
@@ -38,7 +38,7 @@ void MainScene::paintGL()
     if (sceneSettings->projection == Settings::Projection::Orho) {
         glOrtho(projmin_scaled, projmax_scaled, projmin_scaled, projmax_scaled, -diapason * 10, diapason * 10);
     } else {
-        glFrustum (projmin_scaled, projmax_scaled, projmin_scaled, projmax_scaled, diapason, 100);
+        glFrustum (projmin_scaled, projmax_scaled, projmin_scaled, projmax_scaled, diapason, 1000);
         glTranslatef(0.0, 0.0, -diapason);
     }
 

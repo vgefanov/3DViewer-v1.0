@@ -3,6 +3,7 @@
 #include <QColorDialog>
 #include <QFileDialog>
 #include <QMessageBox>
+#include <QTimer>
 
 #include "mainwindow.h"
 #include "ui_mainwindow.h"
@@ -195,7 +196,7 @@ void MainWindow::on_actionOpen_model_triggered()
 }
 
 
-void MainWindow::on_sceneColorButton_2_clicked()
+void MainWindow::on_loadModelButton_clicked()
 {
     load_model_dialog();
 }
@@ -227,8 +228,6 @@ void MainWindow::on_radioNone_clicked()
     m_mainScene->sceneSettings->pointStyle = Settings::PointStyle::None;
     m_mainScene->update();
 }
-
-
 
 
 void MainWindow::on_radioRounded_clicked()
@@ -279,9 +278,47 @@ void MainWindow::on_recordButton_clicked()
     record = !record;
     if (record) {
         ui->recordButton->setText("Stop");
+        m_framesToEnd = 50;
+        recordTimer = new QTimer();
+        connect(recordTimer, SIGNAL(timeout()), this, SLOT(recordTimerAlarm()));
+        recordTimer->start(100); // И запустим таймер
     } else {
         ui->recordButton->setText("Record to GIF");
+        recordTimer->stop();
     }
 
 }
 
+
+void MainWindow::recordTimerAlarm()
+{
+    int width = 1720 / 3;
+    int height = 1698 / 3;
+    int delay = 10;
+    int loopcount = 0; // 0 means infinite, otherwise as specified
+    int bitdepth = 8;
+    bool dither=false;
+
+    if (m_framesToEnd == 50) {
+        m_gifFileName = QFileDialog::getSaveFileName(this, "GIF file", ".", "Image file (*.gif)");
+        m_img_buf = new QVector<QImage>();
+        m_ganim = new GifAnim();
+        m_gwriter = new GifWriter();
+        m_ganim->GifBegin(m_gwriter, m_gifFileName.toLocal8Bit().data(), width, height, delay, loopcount, bitdepth, dither);
+    }
+    if (m_framesToEnd > 0) {
+        QImage small = m_mainScene->grabFramebuffer().scaled(width, height, Qt::KeepAspectRatio)
+                .convertToFormat(QImage::Format_Indexed8).convertToFormat(QImage::Format_RGBA8888);
+        m_img_buf->append(small);
+        m_ganim->GifWriteFrame(m_gwriter, small.constBits(), width, height, delay, bitdepth, dither);
+        qDebug() << m_framesToEnd << small.depth();
+    }
+    else {
+        m_ganim->GifEnd(m_gwriter);
+        delete m_img_buf;
+        delete m_ganim;
+        delete m_gwriter;
+        on_recordButton_clicked();
+    }
+    --m_framesToEnd;
+}

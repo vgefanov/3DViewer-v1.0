@@ -10,8 +10,8 @@ CONFIG += c++17
 
 SOURCES += \
     cfiles/affine.c \
-    cfiles/matrix.c \
     cfiles/objfiles.c \
+    gifanimcplusplus/gifanim.cpp \
     main.cpp \
     mainscene.cpp \
     mainwindow.cpp \
@@ -19,8 +19,8 @@ SOURCES += \
 
 HEADERS += \
     cfiles/affine.h \
-    cfiles/matrix.h \
     cfiles/objfiles.h \
+    gifanimcplusplus/gifanim.h \
     mainscene.h \
     mainwindow.h \
     scenesettings.h
@@ -34,3 +34,7 @@ else: unix:!android: target.path = /opt/$${TARGET}/bin
 !isEmpty(target.path): INSTALLS += target
 
 RESOURCES +=
+
+DISTFILES += \
+    gifanimcplusplus/LICENSE \
+    gifanimcplusplus/README.md

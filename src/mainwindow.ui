@@ -7,7 +7,7 @@
     <x>0</x>
     <y>0</y>
     <width>938</width>
-    <height>1005</height>
+    <height>931</height>
    </rect>
   </property>
   <property name="baseSize">
@@ -840,7 +840,7 @@ background-color: white;
          <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
         </property>
        </widget>
-       <widget class="QPushButton" name="sceneColorButton_2">
+       <widget class="QPushButton" name="loadModelButton">
         <property name="geometry">
          <rect>
           <x>90</x>

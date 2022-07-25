@@ -3,12 +3,26 @@
 #include <iostream>
 #include "mainscene.h"
 
+
 MainScene::MainScene()
 {
-    QString filename = "/Users/farfetch/C8_3DViewer_v1.0-0/src/models/medium/al.obj";
+    QString filename = "/Users/farfech/C8_3DViewer_v1.0-0/src/models/medium/al.obj";
+
+    QFile file(filename);
+    if (!file.open(QIODevice::ReadOnly)) {
+        filename = QFileDialog::getOpenFileName(nullptr, tr("Open model file"), ".", "Model file (*.obj)");
+    }
+    file.close();
+
     sceneSettings = new SceneSettings(filename);
     model = load_model(sceneSettings->modelPath.toLocal8Bit().data());
 
+    set_projection_settings();
+}
+
+
+void MainScene::set_projection_settings()
+{
     // размеры проекции
     projection_min = (model.x_min < model.y_min) ? model.x_min : model.y_min;
     if (model.z_min < projection_min) projection_min = model.z_min;

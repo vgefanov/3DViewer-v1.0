@@ -16,7 +16,6 @@ MainWindow::MainWindow(QWidget *parent)
     , ui(new Ui::MainWindow)
 {
     ui->setupUi(this);
-    setFixedSize(1200, 900);
 
     QSurfaceFormat format;
     format.setRenderableType(QSurfaceFormat::OpenGL);
@@ -27,6 +26,7 @@ MainWindow::MainWindow(QWidget *parent)
     QWidget *container = QWidget::createWindowContainer(m_mainScene);
     ui->verticalLayout->addWidget(container);
 
+    setFixedSize(1200, 900);
     show_model_info();
 }
 
@@ -213,6 +213,7 @@ void MainWindow::load_model_dialog() {
 
     release_model(m_mainScene->model);
     m_mainScene->model = load_model(filename.toLocal8Bit().data());
+    m_mainScene->set_projection_settings();
 
     delete m_mainScene->sceneSettings;
     m_mainScene->sceneSettings = new SceneSettings(filename);
@@ -268,7 +269,7 @@ void MainWindow::on_actionLoad_profile_triggered()
     m_mainScene->sceneSettings->load();
     release_model(m_mainScene->model);
     m_mainScene->model = load_model(m_mainScene->sceneSettings->modelPath.toLocal8Bit().data());
-
+    m_mainScene->set_projection_settings();
     show_model_info();
     ui->scaleSlider->setValue(m_mainScene->sceneSettings->scaleX * 50);
     ui->moveXslider->setValue(m_mainScene->sceneSettings->moveX * 50 / m_mainScene->diapason);

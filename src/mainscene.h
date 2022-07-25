@@ -16,6 +16,7 @@ class MainScene : public QOpenGLWindow, protected QOpenGLFunctions
 
 public:
     MainScene();
+    void set_projection_settings();
     void initializeGL() override;
     void resizeGL(int w, int h) override;
     void paintGL() override;

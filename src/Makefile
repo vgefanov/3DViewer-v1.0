@@ -20,12 +20,12 @@ uninstall: prepare
 	-rmdir bin/
 
 clean: prepare
-	@-rm cfiles/*.gcov cfiles/*.gcda cfiles/*.gcno cfiles/*.info 2>/dev/null
-	@-rm cfiles/tests 2>/dev/null
-	@-rm -rf cfiles/lcov_report 2>/dev/null
-	@# @make -f qMakefile clean
-	@-rm -rf 3DViewer.app
+	@make -f qMakefile clean
 	@-rm qMakefile
+	@-rm cfiles/*.gcov cfiles/*.gcda cfiles/*.gcno cfiles/*.info
+	@-rm -rf cfiles/lcov_report doc/html doc/latex
+	@-rm cfiles/tests 3dviewer.tar.gz
+	@-rm -rf 3DViewer.app
 
 dvi:
 	# brew install doxygen

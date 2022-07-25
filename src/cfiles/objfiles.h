@@ -1,5 +1,5 @@
-#ifndef _OBJFILES_H_
-#define _OBJFILES_H_
+#ifndef SRC_CFILES_OBJFILES_H_
+#define SRC_CFILES_OBJFILES_H_
 
 #define RECORD_SIZE 1000
 
@@ -26,4 +26,4 @@ unsigned int scan_faces(char *str, unsigned int *faces);
 model load_model(const char *filename);
 void release_model(model model);
 
-#endif  // _OBJFILES_H_
+#endif  // SRC_CFILES_OBJFILES_H_

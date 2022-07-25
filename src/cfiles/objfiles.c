@@ -10,7 +10,7 @@ unsigned int scan_vertexes(char *str, float *vertexes) {
   char *start = str + 1;
   char *endptr;
   while (*start) {
-    for (; *start == ' ' && (*start != 0); start++) {
+    for (; *start == ' '; start++) {
     }
     if (*start != 0) {
       if (vertexes != NULL) {
@@ -19,7 +19,7 @@ unsigned int scan_vertexes(char *str, float *vertexes) {
       }
       result++;
     }
-    for (; (*start != ' ') && (*start != 0); start++) {
+    for (; *start != ' ' && (*start != 0); start++) {
     }
   }
   return result;
@@ -32,7 +32,7 @@ unsigned int scan_faces(char *str, unsigned int *faces) {
   for (; (*endptr < '0') && (*endptr != 0); *endptr-- = 0) {
   }
   while (*start) {
-    for (; *start == ' ' && (*start != 0); start++) {
+    for (; *start == ' '; start++) {
     }
     if (*start != 0) {
       if (faces != NULL) {

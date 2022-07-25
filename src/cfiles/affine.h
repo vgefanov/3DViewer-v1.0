@@ -1,5 +1,5 @@
-#ifndef _AFFINE_H_
-#define _AFFINE_H_
+#ifndef SRC_CFILES_AFFINE_H_
+#define SRC_CFILES_AFFINE_H_
 #include "objfiles.h"
 
 void moveXYZ(model *model, double ax, double ay, double az);
@@ -8,4 +8,4 @@ void rotationY(model *model, double angle);
 void rotationZ(model *model, double angle);
 void scale(model *model, double s);
 
-#endif  // _AFFINE_H_
+#endif  // SRC_CFILES_AFFINE_H_
